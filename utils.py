@@ -205,14 +205,18 @@ def plot_weight_distribution(graphs, row_index, title, bins=20):
             
             plt.plot(bin_centers, hist, marker='o', label=f'Graph {graph_index+1}', color=color)
             
-            # 상위 10% weight 지점 계산
+            # compute top 10% weight point
             threshold = np.percentile(weights, 90)#normalized_weights, 90)
-            plt.axvline(x=threshold, color=color,linestyle='--', linewidth=1, label='90th percentile' if graph_index == 0 else "")
-    
+            plt.axvline(x=threshold, color=color,linestyle='--', linewidth=1, label='90th percentile' if graph_index == len(graphs)-1 else "")
+
     plt.title(title)
     plt.xlabel('Edge Weight')
     plt.ylabel('Frequency')
     plt.legend()
+    
+    # save each subplot as individual .pdf file
+    plt.savefig(f"./Output/Supp_weight_distribution_{title}.pdf", format="pdf")
+
     plt.show()
     
 def plot_degree_distribution(graphs, row_index, title):
@@ -235,12 +239,16 @@ def plot_degree_distribution(graphs, row_index, title):
             plt.plot(x, y, marker='o', color = color, label=f'Graph {graph_index+1}')
             
             threshold = 0.3
-            plt.axvline(x=threshold, color='r', linestyle='--', linewidth=1)
-    
+            plt.axvline(x=threshold, color='r', linestyle='--', linewidth=1, label='30th percentile' if graph_index == len(graphs)-1 else "")
+ 
     plt.title(title)
     plt.xlabel('Normalized Degree')
     plt.ylabel('Frequency')
     plt.legend()
+
+    # save each subplot as individual .pdf file
+    plt.savefig(f"./Output/Supp_degree_distribution_binarized_graph_{title}.pdf", format="pdf")
+
     plt.show()
 
 def aggregate_node_weights(graph):
